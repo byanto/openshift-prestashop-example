@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# This deploy hook gets executed after dependencies are resolved and the
+# build hook has been run but before the application has been started back
+# up again.  This script gets executed directly, so it could be python, php,
+# ruby, etc.
+
+install_version="1.6.1.1"
+download_link="http://sz-btfs.yun.ftn.qq.com/ftn_handler/0a0bd9740b8a2fb81b3fca098dda209c6ae91799d470b3d8f0ae90fac670145d/?fname=prestashop_1.6.1.1.zip&cn=0&cv=30013"
+download_file=prestashop_${install_version}.zip
+
+current_version_dir=${OPENSHIFT_DATA_DIR}current
+
+#
+# If PrestaShop is already installed in the current gear, there
+# is nothing to build :-)
+#
+[ -d "${current_version_dir}" ] && exit 0
+
+# Download the latest stable version from mirror
+install_dir=${OPENSHIFT_BUILD_DEPENDENCIES_DIR}${install_version}
+mkdir -p $install_dir
+pushd ${install_dir} >/dev/null
+curl -Ls ${download_link} > ${download_file}
+
+# Install PrestaShop
+unzip ${download_file}
+rm -rf ${download_file}
+
+echo ${install_version} > ${OPENSHIFT_BUILD_DEPENDENCIES_DIR}.current_version
+
+popd > /dev/null
+
+if [ ! -f ${OPENSHIFT_DATA_DIR}config/settings.inc.php ]; then
+    mkdir -p ${OPENSHIFT_DATA_DIR}config
+    touch ${OPENSHIFT_DATA_DIR}config/settings.inc.php
+fi
+ln -sf ${OPENSHIFT_DATA_DIR}config/settings.inc.php ${OPENSHIFT_REPO_DIR}php/config/settings.inc.php
