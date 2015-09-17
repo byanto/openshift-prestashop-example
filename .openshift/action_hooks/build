@@ -31,8 +31,3 @@ echo ${install_version} > ${OPENSHIFT_BUILD_DEPENDENCIES_DIR}.current_version
 
 popd > /dev/null
 
-if [ ! -f ${OPENSHIFT_DATA_DIR}config/settings.inc.php ]; then
-    mkdir -p ${OPENSHIFT_DATA_DIR}config
-    touch ${OPENSHIFT_DATA_DIR}config/settings.inc.php
-fi
-ln -sf ${OPENSHIFT_DATA_DIR}config/settings.inc.php ${OPENSHIFT_REPO_DIR}php/config/settings.inc.php

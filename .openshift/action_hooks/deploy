@@ -21,6 +21,12 @@ if [ -d ${OPENSHIFT_REPO_DIR}php ]; then
 fi
 ln -sf ${dest_dir} ${OPENSHIFT_REPO_DIR}php
 
+if [ ! -f ${OPENSHIFT_DATA_DIR}config/settings.inc.php ]; then
+    mkdir -p ${OPENSHIFT_DATA_DIR}config
+    touch ${OPENSHIFT_DATA_DIR}config/settings.inc.php
+fi
+ln -sf ${OPENSHIFT_DATA_DIR}config/settings.inc.php ${OPENSHIFT_REPO_DIR}php/config/settings.inc.php
+
 # Check and wait for MySQL
 if [ -z "$OPENSHIFT_MYSQL_DB_HOST" ]
 then
