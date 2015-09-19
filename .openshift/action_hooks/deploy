@@ -12,7 +12,7 @@ install_dir=${OPENSHIFT_BUILD_DEPENDENCIES_DIR}${current_version}
 
 if [ ! -d "${dest_dir}" ]; then
   mkdir -p $dest_dir
-  cp -rf ${install_dir}/* ${dest_dir}/
+  cp -rf ${install_dir}/prestashop/* ${dest_dir}/
 fi
 
 # Replace the php/ directory with provided clean PrestaShop installation
