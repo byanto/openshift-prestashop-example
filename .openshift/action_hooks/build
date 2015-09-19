@@ -30,7 +30,6 @@ curl -Ls ${download_link} > ${download_file}
 unzip ${download_file}
 rm -rf ${download_file}
 rm Install_PrestaShop.html
-mv prestashop php
 
 echo ${install_version} > ${OPENSHIFT_BUILD_DEPENDENCIES_DIR}.current_version
 
